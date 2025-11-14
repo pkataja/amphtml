@@ -42,8 +42,8 @@ async function getCVSData (cvs) {
 		if(i>0 && line[0] !='') {
 		 
 			let boatdata = new Map()
+			
 			let s = line[0];
-		 
 			const bin = s.replace('.dxt','');;
 			const jsonMap = tablejsonData.find(([key, value]) => value ["BIN"] === bin)[1];
 			boatdata ["FIN_FinRating_TOT"] = jsonMap ["FIN_FinRating_TOT"];
@@ -54,11 +54,9 @@ async function getCVSData (cvs) {
 			boatdata ["FIN_FinRating_H_TOD"] = jsonMap ["FIN_FinRating_H_TOD"];
 			boatdata ["FIN_FinRating_L_TOD"] = jsonMap ["FIN_FinRating_L_TOD"];
 			 
-			s = line[11];
-			boatdata ["CrewWT"] = s.trim();
+			boatdata ["CrewWT"] = line[11];
 			boatdata ["C_TYPE"] = "TABLE";
-			s = line[2];
-			boatdata ["TYPE"] = s.trim();
+			boatdata ["TYPE"] = line[2];
 			boatdata ["FILE_ID"] = line[0];
 			boatdata ["SAILNUMB"] = "";
 			boatdata ["NAME"] = "";
