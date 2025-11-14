@@ -1,1 +1,127 @@
-let currentYear=(new Date).getFullYear(),boatlist=new Array,csvData,csvHeader,tablejsonData,orcBoats=0,dhBoats=0,nsBoats=0,tableBoats=0;async function getCVSData(a){a=await a.text();(csvData=Papa.parse(a)).data.forEach(function(n,i){if(0<i&&""!=n[0]){var _=new Map;let a=n[0],t=a.replace(".dxt","");var s=tablejsonData.find(([,a])=>a.BIN===t)[1];_.FIN_FinRating_TOT=s.FIN_FinRating_TOT,_.FIN_FinRating_H_TOT=s.FIN_FinRating_H_TOT,_.FIN_FinRating_L_TOT=s.FIN_FinRating_L_TOT,_.CDL=s.CDL,_.FIN_FinRating_TOD=s.FIN_FinRating_TOD,_.FIN_FinRating_H_TOD=s.FIN_FinRating_H_TOD,_.FIN_FinRating_L_TOD=s.FIN_FinRating_L_TOD,a=n[11],_.CrewWT=a.trim(),_.C_TYPE="TABLE",a=n[2],_.TYPE=a.trim(),_.FILE_ID=n[0],_.SAILNUMB="",_.NAME="",_.index=i,boatlist.push(_),n.push(_.FIN_FinRating_TOT),n.push(_.FIN_FinRating_H_TOT),n.push(_.FIN_FinRating_L_TOT),n.push(_.CDL),n.push(_.FIN_FinRating_TOD),n.push(_.FIN_FinRating_H_TOD),n.push(_.FIN_FinRating_L_TOD)}0===i&&(n.push("FIN_FinRating_TOT"),n.push("FIN_FinRating_H_TOT"),n.push("FIN_FinRating_L_TOT"),n.push("CDL"),n.push("FIN_FinRating_TOD"),n.push("FIN_FinRating_H_TOD"),n.push("FIN_FinRating_L_TOD"),csvHeader=n)}),tableBoats=csvData.data.length-1,reloadTable()}async function getJsonData(i){i.rms.forEach(a=>{var t=new Map,n=(t.FIN_FinRating_TOT=a.FIN_FinRating_TOT,t.FIN_FinRating_H_TOT=a.FIN_FinRating_H_TOT,t.FIN_FinRating_L_TOT=a.FIN_FinRating_L_TOT,t.CDL=a.CDL,t.CrewWT=a.CrewWT,a.C_Type);t.C_TYPE=n,t.TYPE=a.Class,t.FILE_ID=a.RefNo,t.SAILNUMB=a.SailNo,t.NAME=a.SailNo,boatlist.push(t),"INTL"!==n&&"CLUB"!==n||++orcBoats,"DHIN"!==n&&"DHCL"!==n||(dhBoats=i.rms.length),"HSIN"!==n&&"NSCL"!==n||(nsBoats=i.rms.length)})}Promise.all([fetch("https://data.orc.org/public/WPub.dll?action=DownRMS&CountryId=FIN&ext=json&family=1&VPPYear="+currentYear),fetch("https://data.orc.org/public/WPub.dll?action=DownRMS&CountryId=FIN&ext=json&family=3&VPPYear="+currentYear),fetch("https://data.orc.org/public/WPub.dll?action=DownRMS&CountryId=FIN&ext=json&family=5&VPPYear="+currentYear)]).then(a=>Promise.all(a.map(a=>a.json()))).then(a=>{a.forEach(async a=>{getJsonData(a)}),fetch("https://ampranking.s3.eu-north-1.amazonaws.com/2025/FinnishClass.json").then(a=>a.json()).then(a=>{tablejsonData=Array.from(a.rms.entries()),fetch("https://ampranking.s3.eu-north-1.amazonaws.com/2025/FIN_table25.csv").then(a=>{getCVSData(a)})})});
+ 
+
+const currentYear = new Date().getFullYear();
+ 
+const boatlist = new Array();
+let csvData;
+let csvHeader;
+let tablejsonData;
+let orcBoats=0;
+let dhBoats=0;
+let nsBoats=0;
+let tableBoats=0;
+ 
+ 
+Promise.all([
+	fetch('https://data.orc.org/public/WPub.dll?action=DownRMS&CountryId=FIN&ext=json&family=1&VPPYear='+currentYear),
+	fetch('https://data.orc.org/public/WPub.dll?action=DownRMS&CountryId=FIN&ext=json&family=3&VPPYear='+currentYear),
+	fetch('https://data.orc.org/public/WPub.dll?action=DownRMS&CountryId=FIN&ext=json&family=5&VPPYear='+currentYear)
+]).then(orcjsons => {
+	return Promise.all(orcjsons.map(orc => orc.json()));
+	})
+	.then(results => {
+		results.forEach(async (json) => {
+			getJsonData (json);
+		})
+		fetch ('https://ampranking.s3.eu-north-1.amazonaws.com/2025/FinnishClass.json').then(response => {
+			return response.json();
+		}).then(tablejson => {
+			tablejsonData = Array.from(tablejson.rms.entries());
+				fetch('https://ampranking.s3.eu-north-1.amazonaws.com/2025/FIN_table25.csv').then(csv => {
+					getCVSData(csv);
+			});
+		}); 
+});
+	 
+  
+ 
+async function getCVSData (cvs) {
+	const csvArray = await cvs.text();
+	csvData = Papa.parse (csvArray );
+	csvData.data.forEach (function(line,i){	
+		if(i>0 && line[0] !='') {
+		 
+			let boatdata = new Map()
+			let s = line[0];
+		 
+			const bin = s.replace('.dxt','');;
+			const jsonMap = tablejsonData.find(([key, value]) => value ["BIN"] === bin)[1];
+			boatdata ["FIN_FinRating_TOT"] = jsonMap ["FIN_FinRating_TOT"];
+			boatdata ["FIN_FinRating_H_TOT"] = jsonMap ["FIN_FinRating_H_TOT"];
+			boatdata ["FIN_FinRating_L_TOT"] = jsonMap ["FIN_FinRating_L_TOT"];
+			boatdata ["CDL"] = jsonMap ["CDL"];
+			boatdata ["FIN_FinRating_TOD"] = jsonMap ["FIN_FinRating_TOD"];
+			boatdata ["FIN_FinRating_H_TOD"] = jsonMap ["FIN_FinRating_H_TOD"];
+			boatdata ["FIN_FinRating_L_TOD"] = jsonMap ["FIN_FinRating_L_TOD"];
+			 
+			s = line[11];
+			boatdata ["CrewWT"] = s.trim();
+			boatdata ["C_TYPE"] = "TABLE";
+			s = line[2];
+			boatdata ["TYPE"] = s.trim();
+			boatdata ["FILE_ID"] = line[0];
+			boatdata ["SAILNUMB"] = "";
+			boatdata ["NAME"] = "";
+			boatdata ["index"] = i;
+			boatlist.push(boatdata);  
+			
+			line.push (boatdata ["FIN_FinRating_TOT"] );
+			line.push (boatdata ["FIN_FinRating_H_TOT"] );
+			line.push (boatdata ["FIN_FinRating_L_TOT"] );
+			line.push (boatdata ["CDL"] );
+			line.push (boatdata ["FIN_FinRating_TOD"] );
+			line.push (boatdata ["FIN_FinRating_H_TOD"] );
+			line.push (boatdata ["FIN_FinRating_L_TOD"] );
+		}
+		if (i===0){
+			line.push ("FIN_FinRating_TOT");
+			line.push ("FIN_FinRating_H_TOT");
+			line.push ("FIN_FinRating_L_TOT");
+			line.push ("CDL");
+			line.push ("FIN_FinRating_TOD");
+			line.push ("FIN_FinRating_H_TOD");
+			line.push ("FIN_FinRating_L_TOD");
+			csvHeader=line;
+		} 
+	
+	}); 
+	tableBoats=csvData.data.length-1;
+	reloadTable();
+}
+
+async function getJsonData (data) {
+	data ["rms"].forEach (item => {
+		let boatdata = new Map();
+		boatdata ["FIN_FinRating_TOT"] = item ["FIN_FinRating_TOT"];
+		boatdata ["FIN_FinRating_H_TOT"] = item ["FIN_FinRating_H_TOT"];
+		boatdata ["FIN_FinRating_L_TOT"] = item ["FIN_FinRating_L_TOT"];
+		boatdata ["CDL"] = item ["CDL"];
+		boatdata ["CrewWT"] = item ["CrewWT"];
+		let c_type =  item ["C_Type"];
+		boatdata ["C_TYPE"] = c_type;
+		boatdata ["TYPE"] = item ["Class"];
+		boatdata ["FILE_ID"] = item ["RefNo"];
+		boatdata ["SAILNUMB"] = item ["SailNo"];
+	 	boatdata ["NAME"] = item ["SailNo"];
+	  boatlist.push(boatdata); 
+		
+		if(c_type==='INTL' || c_type === 'CLUB') {
+				++orcBoats;
+		}
+		if(c_type==='DHIN' || c_type === 'DHCL') {
+				dhBoats = data ["rms"].length;
+		}
+		if(c_type==='HSIN' || c_type === 'NSCL') {
+			nsBoats = data ["rms"].length;
+		}
+		 
+	});
+ 
+}
+ 
+
+ 
+
+ 
+	
+	 
