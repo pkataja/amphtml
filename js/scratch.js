@@ -54,16 +54,16 @@ $(document).ready(function() {
    
 	}   
   
-  function doToggle() {
-	  showtime = !showtime;
+ function doToggle() {
+	showtime = !showtime;
    	let text = "Näytä aika";
    	if(!showtime) {
-				text = "Näytä erotus"
+	   text = "Näytä erotus"
    	}
    	$('#toggle').html(text);
    	console.log(showtime);
    	updateInputs();
-	}
+}
  	
 	function createLystable() {
 
@@ -80,15 +80,16 @@ $(document).ready(function() {
       pageLength: 8,
       language: {
       	search: "Hae veneit&auml;:&nbsp;&nbsp;",
+        /*
         paginate: {
-					"first":      "<<",
+		  "first":      "<<",
           "next":       ">",
-           "previous":   "<",
-           "last":       ">>"
-       	},
+          "previous":   "<",
+          "last":       ">>"
+       	},*/
     	lengthMenu: "",
       	"zeroRecords": "",
-        "info": "",
+        "info": "Näytetään sivua _PAGE_ / _PAGES_",
         "infoEmpty": "",
         "infoFiltered": "",
     	},
@@ -98,7 +99,7 @@ $(document).ready(function() {
         	return fixNumber (value);
        	}, 
      	}], 
-      dom: '<fpt>' ,
+      dom: 'sftip' ,
       order: [[1, 'asc']],
       search: {
 				caseInsensitive: true
@@ -106,20 +107,20 @@ $(document).ready(function() {
      	fixedColumns: {
      		left: 3
      	},
-    	pagingType: pagingType,
+    //	pagingType: pagingType,
     	retrieve: true,
      	initComplete: function (settings, json) {  
 	    	$("#lystable").wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");            
 	   	}
    	});
 		 
-		var searchInput = document.getElementById("lystable_filter").childNodes[0].childNodes[1] ;
-	  searchInput.classList.remove("form-control");   
+        var searchInput = document.getElementById("lystable_filter").childNodes[0].childNodes[1] ;
+        searchInput.classList.remove("form-control");   
 	 	$('#lystable_filter').css('display','inline').css('float','left').css('padding-right','8px');
-	  $("div.dataTables_filter input").keyup( function (e) {
-	  	if ($('#lystable').DataTable().page.len() == 0) {
-	   		$('#lystable').DataTable().page.len(8).draw();
-	   	} 
+	    $("div.dataTables_filter input").keyup( function (e) {
+	  	    if ($('#lystable').DataTable().page.len() == 0) {
+	   		  $('#lystable').DataTable().page.len(8).draw();
+	   	   } 
 	 	});
 	   
 	}
