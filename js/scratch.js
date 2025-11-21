@@ -11,7 +11,6 @@ let lystableJS=undefined;
 let sailTimesArray = new Array();
   
 let maxNameWidth;
-let pagingType;
 let showtime=false;
      
 $(document).ready(function() {  
@@ -21,11 +20,8 @@ $(document).ready(function() {
    
   
   function startup() {	 
-		maxNameWidth = window.getComputedStyle(document.body).getPropertyValue('--max-name-width');
-		pagingType = window.getComputedStyle(document.body).getPropertyValue('--paging-type');
-	 
-		
-	  createLystable();
+	maxNameWidth = window.getComputedStyle(document.body).getPropertyValue('--max-name-width');
+	createLystable();
   	$('#lystable tbody').on('click', 'tr', function () {
      	addBoat (boatlist[$(this) [0]._DT_RowIndex]);
    	});
@@ -65,58 +61,50 @@ $(document).ready(function() {
    	updateInputs();
 }
  	
-	function createLystable() {
+function createLystable() {
 
-		lystableJS = $('#lystable').DataTable ({
-			data:  boatlist,
-			columns: [
-				{ data: "TYPE", title: "Tyyppi",},
-				{ data: "FIN_FinRating_TOT", title: "FR"},
-				{ data: "C_TYPE", title: ""},
-				{ data: "NAME", title: "Nimi"},
-				{ data: "SAILNUMB", title: "Purjenro"}],
-    	responsive: false,
-      paging: true,
-      pageLength: 8,
-      language: {
-      	search: "Hae veneit&auml;:&nbsp;&nbsp;",
-        /*
-        paginate: {
-		  "first":      "<<",
-          "next":       ">",
-          "previous":   "<",
-          "last":       ">>"
-       	},*/
-    	lengthMenu: "",
-      	"zeroRecords": "",
-        "info": "Näytetään sivua _PAGE_ / _PAGES_",
-        "infoEmpty": "",
-        "infoFiltered": "",
-    	},
-      columnDefs: [{
-     		targets: [1,],              
-        render: function (value, type, row) {
+    lystableJS = $('#lystable').DataTable ({
+	   data:  boatlist,
+		  columns: [
+			{ data: "TYPE", title: "Tyyppi",},
+			{ data: "FIN_FinRating_TOT", title: "FR"},
+			{ data: "C_TYPE", title: ""},
+			{ data: "NAME", title: "Nimi"},
+			{ data: "SAILNUMB", title: "Purjenro"}],
+       responsive: false,
+       paging: true,
+       pageLength: 8,
+       language: {
+      	 search: "Hae veneit&auml;:&nbsp;&nbsp;",
+         lengthMenu: "",
+      	 zeroRecords: "",
+         info: "",
+         infoEmpty: "",
+         infoFiltered: "",
+       },
+       columnDefs: [{
+         targets: [1,],              
+         render: function (value, type, row) {
         	return fixNumber (value);
-       	}, 
-     	}], 
-      dom: 'sftip' ,
-      order: [[1, 'asc']],
-      search: {
-				caseInsensitive: true
-     	},
-     	fixedColumns: {
-     		left: 3
-     	},
-    //	pagingType: pagingType,
-    	retrieve: true,
-     	initComplete: function (settings, json) {  
-	    	$("#lystable").wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");            
-	   	}
+       	 }, 
+       }], 
+       dom: 'sftip' ,
+       order: [[1, 'asc']],
+       search: {
+	       caseInsensitive: true
+       },
+       fixedColumns: {
+         left: 3
+       },
+       retrieve: true,
+       initComplete: function (settings, json) {  
+	       $("#lystable").wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");            
+	   }
    	});
 		 
         var searchInput = document.getElementById("lystable_filter").childNodes[0].childNodes[1] ;
         searchInput.classList.remove("form-control");   
-	 	$('#lystable_filter').css('display','inline').css('float','left').css('padding-right','8px');
+	 	$('#lystable_filter').css('display','inline').css('float','left').css('padding-right','0.66rem').css('padding-bottom','1rem');
 	    $("div.dataTables_filter input").keyup( function (e) {
 	  	    if ($('#lystable').DataTable().page.len() == 0) {
 	   		  $('#lystable').DataTable().page.len(8).draw();

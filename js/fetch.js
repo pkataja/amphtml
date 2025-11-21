@@ -41,7 +41,7 @@ fetch ('https://ampranking.s3.eu-north-1.amazonaws.com/2025/FinnishClass.json').
               });
 	       });
 		}); 
-console.log('fetch');
+ 
 
 let fetchDone=0;
 function readyToReload() {
@@ -128,7 +128,7 @@ function getJsonData (data) {
 		if(c_type==='DHIN' || c_type === 'DHCL') {
           ++dhBoats;
 		}
-		if(c_type==='HSIN' || c_type === 'NSCL') {
+		if(c_type==='NSIN' || c_type === 'NSCL') {
           ++nsBoats;  
 		}
 		 

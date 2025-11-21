@@ -89,6 +89,11 @@ function createFrtable() {
 	});
     document.getElementsByClassName('ctypeSearch')[0].appendChild(createSelect ());
 	console.log('frboats');
+    $('#NS').prop('checked', true);
+    $('#DH').prop('checked', true);
+    $('#CLUB').prop('checked', true);
+    $('#TABLE').prop('checked', true);
+    $('#INTL').prop('checked', true);
 }
 
 
@@ -98,7 +103,7 @@ function createSelect () {
 	div.setAttribute('id','selectDiv');
 	let checkBoxDiv =  document.createElement('div');
 	checkBoxDiv.setAttribute('id','checkBoxDiv');
-    checkBoxDiv.appendChild(document.createTextNode('Valitse\xa0\xa0\xa0'));
+    checkBoxDiv.appendChild(document.createTextNode('Valitse\xa0\xa0\xa0\xa0'));
 	checkBoxDiv.setAttribute('class','checkBoxes');
 	createCheckboxes (checkBoxDiv);
  	div.appendChild(checkBoxDiv);	
@@ -124,9 +129,9 @@ const tableSearch = 'TABLE';
 const allSearch = tableSearch + '|' + intlSearch + '|' + clubSearch + '|' + dhSearch + '|' + nsSearch;
 
 function createCheckboxes (checkBoxDiv) {
-	const values = ['ALL',tableSearch,intlSearch,clubSearch,dhSearch,nsSearch];
-	const texts = ['\xa0Kaikki\xa0\xa0','\xa0TABLE\xa0\xa0','\xa0INTL\xa0\xa0','\xa0CLUB\xa0\xa0','\xa0DH\xa0\xa0','\xa0NS'];
-	['ALL', 'TABLE','INTL','CLUB','DH','NS'].forEach ((box,i) => {
+	const values = [tableSearch,intlSearch,clubSearch,dhSearch,nsSearch];
+	const texts = ['\xa0TABLE\xa0\xa0','\xa0INTL\xa0\xa0','\xa0CLUB\xa0\xa0','\xa0DH\xa0\xa0','\xa0NS'];
+	['TABLE','INTL','CLUB','DH','NS'].forEach ((box,i) => {
 		let checkbox = document.createElement('input');
 		checkbox.type = "checkbox";
 		checkbox.name = "checkbox";
@@ -138,7 +143,6 @@ function createCheckboxes (checkBoxDiv) {
 		label.appendChild(document.createTextNode(texts[i])); 
 		checkBoxDiv.appendChild(label);
 	});
-  
 }
 
 let showintl=1;
@@ -148,14 +152,8 @@ let showNs=1;
 let showTable=1;
 
 function updateTable(values) {
-    console.log(values);
-	if(values.includes ('ALL')) {
-        values = allSearch;
-        $('#NS').prop('checked', false);
-        $('#DH').prop('checked', false);
-        $('#CLUB').prop('checked', false);
-        $('#TABLE').prop('checked', false);
-        $('#INTL').prop('checked', false);
+	if(values === '') {
+        values = '_DONT_SHOW_NOTHING_Ñ_'
     }
 	showintl=showClub=showDh=showNs=showTable=0;
 	if(values.includes(tableSearch)) showTable = 1;

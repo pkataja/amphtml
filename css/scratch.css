@@ -133,7 +133,7 @@ body {
 		padding-left:0%;
 	} 
 	.dataTables_wrapper .dataTables_paginate .paginate_button { 
- 		font-size: 1.5rem !important;
+ 		font-size: 1.1rem !important;
 	}
 	.dataTables_wrapper .dataTables_paginate .ellipsis {
 		padding: 0.3rem !important;
