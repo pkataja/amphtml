@@ -1,5 +1,6 @@
  
 let boats = new Map();
+let inputTableJS;
 let firstStartTime = ['00','00','00'];
 let distance=0;
 let roundTime=1;
@@ -110,6 +111,9 @@ function updateBoats() {
         firstBoatSelected = sortedBoats.keys().next().value;
     }
  
+    if (inputTableJS != null) {
+          inputTableJS.clear().destroy();
+      }
     $('#inputTable tbody tr').remove();
        
     let frSmallest;
@@ -141,9 +145,24 @@ function updateBoats() {
             startTime = sboat.startTime;
         }
         row += '<td>'+startTime+'</td>';
+        row += '<td style="display:none"></th>';
+        row += '<td style="display:none"></th>';
+        row += '<td style="display:none"></th>';
         row += '</tr>';  
         $('#inputTable tbody').append(row);
     }
+    
+    inputTableJS = $('#inputTable').DataTable({
+           dom: '<t>',
+           retrieve: true,
+           ordering: false,
+           fixedColumns: {
+               left: 4
+           },
+           initComplete: function(settings, json) {
+               $("#inputTable").wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");
+           },
+       });
     goShow();
 }
 
