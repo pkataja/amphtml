@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+	<script src="js/fetch.js" sync></script>
+	<title>Finrating Aikaa matkalle laskin</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta  name="author" content="Pekka Kataja">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+    <link rel="shortcut icon" href="https://i0.wp.com/avomeripurjehtijat.org/wp-content/uploads/2021/03/amp-logo-square.png?fit=32%2C32&#038;ssl=11">	
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
+    <link href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.datatables.net/scroller/2.3.0/js/dataTables.scroller.min.js"></script>
+    <link href="https://cdn.datatables.net/scroller/2.3.0/css/scroller.dataTables.min.css" rel="stylesheet" type="text/css"/>
+	 
+ 
+	<script src="https://cdn.sheetjs.com/xlsx-0.18.5/package/dist/xlsx.full.min.js" async></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" async></script>
+     
+     
+	
+	<link href="css/scratch.css" rel="stylesheet" type="text/css"/>
+	<script src="js/totd.js" defer></script>
+	<script src="js/chasestart.js" defer></script>
+ 
+</head>
+
+<body>
+
+	<div class="formWrapper">
+
+		<div id="container">
+			<div class="boxform">
+				<div>
+					<p class="header">Finrating Aikaa matkalle laskin</p>
+					<h2 style="display: block" id="waitPlease">Odota hetki!</h2>
+				</div>
+
+				<div id="startTimeDiv" style="display: none;">
+                    <p>Aikaa matkalle lasketaan <span style="font-weight:bolder">ttas = tpurj + 600 x [1 - 1/FinRating] x d </span>,
+                    <br> missä d on radan pituus meripeninkulmina, luku 600 keskituulen laskentakerroin ja ajat sekunteina </p>
+                    <h2>Asetukset</h2>
+					 <fiedlset>
+					   <div>
+						  <label for="changeHour" class="labelStartTime">Ensimmäisen lähtöaika:</label> 
+						  <input class="inputFST" name="changeHour" id="fstHour" value="">:
+						  <input class="inputFST" name="changeHour" id="fstMinute" value="">:
+						  <input class="inputFST" name="changeHour" id="fstSecond" value="">
+						  <span id="fstTimeError" class="error-message"></span>&nbsp;HH:MM:SS 
+					   </div>
+					   <div>
+					      <label for="changeSecond" class="labelStartTime">pyöristys:</label>
+					      <select name="round" id="fstRound">
+					          <option value=1>Kyllä</option>
+					          <option value=0>Ei</option>
+					      </select>
+					      &nbsp;minuuttiin 
+                        </div>
+					   <div>
+						<label for="changeDistance" class="labelStartTime">Matka:</label> 
+						<input class="inputFST" name="changeDistance" id="fstDistance" value="">&nbsp;mpk
+						<span id="fstDistanceError" class="error-message"></span> 
+					  </div>
+					 </fiedlset>
+					<br>
+					<button onClick='useSettings()' type="submit">Käytä</button>
+					&nbsp;
+					<input id="cancelSettings" type="button" name="cancel" value="Peruuta" onclick='goShow()' style="display: none"> <br>
+				    <br>
+				</div>
+
+
+
+				<div id="scratchDiv" class="scratchDiv" style="display: none">
+					<hr id="firstLine">
+					
+					<table id="inputTable" class="inputTable display nowrap">
+						<thead>
+							<tr>
+								<th></th>
+								<th></th>
+								<th>Venetyyppi</th>
+								<th>Finrating</th>
+								<th>Veneen nimi</th>
+								<th>Purjenro</th>
+								<th>Lähtöaika</th>
+								<th style="display:none">Maali</th>
+								<th style="display:none">P.aika</th>
+								<th style="display:none">T.aika</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+
+				<div id="finratingDiv">
+				    <p>
+                        <button type="submit" id="createExcel" style="display: none">Vie Exceliin</button>
+                        &nbsp;&nbsp;
+                        <button type="submit" id="startTimes">Asetukset</button>
+                        &nbsp;&nbsp;
+                        <button type="submit" id="instructions">Ohjeet</button>
+                    </p>
+					<hr>
+					<table class="display nowrap lystable" id="lystable"></table>
+					<p>
+						<i>&copy; Avomeripurjehtijat ry. 2025</i>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
+

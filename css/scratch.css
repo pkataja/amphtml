@@ -5,8 +5,7 @@
 
 :root {
   --max-name-width: 30;
-  --paging-type: full_numbers;
-  --max-width: 992px;
+  --max-width: 1024px;
 }  
 
 html {
@@ -44,6 +43,19 @@ body {
  }
 .HeaderHMS {
 	font-size: 1.3rem;
+}
+
+.labelStartTime {
+    display: inline-block;
+    width: 11rem;
+}
+.inputFST {
+     width: 2.2rem;
+     text-align: right;
+}
+.error-message {
+    color: red;
+    font-size: 1rem;
 }
  
  
@@ -86,10 +98,7 @@ body {
  	border: 0.1px solid;
  	white-space: nowrap;
 } 
-.scratcSpacer {
-	font-size: 1rem;
-}
-
+ 
 .lystable {
 	max-width: var(--max-width);
 }
@@ -133,7 +142,7 @@ body {
 		padding-left:0%;
 	} 
 	.dataTables_wrapper .dataTables_paginate .paginate_button { 
- 		font-size: 1.1rem !important;
+ 		font-size: 0.9rem !important;
 	}
 	.dataTables_wrapper .dataTables_paginate .ellipsis {
 		padding: 0.3rem !important;
@@ -141,26 +150,18 @@ body {
 	.dataTables_wrapper .dataTables_filter input {
 		max-width: 10rem;
 	}
-	.scratcSpacer {
-		font-size: 0.8rem;
-	}
 	.header {
-	font-size:1.6rem;
+	   font-size:1.6rem;
 	}
 	.boxform {
-    padding: 0.4rem 0.4rem; 
-    margin-bottom: 0.1rem; 
-    margin-left: 0.1rem; 
-    margin-right: 0.1rem;  
-    border: 0.2rem solid #00bce9; 
+       padding: 0.4rem 0.4rem; 
+       margin-bottom: 0.1rem; 
+       margin-left: 0.1rem; 
+       margin-right: 0.1rem;  
+       border: 0.2rem solid #00bce9; 
 	} 
 	:root {
-  	--max-name-width: 15;
-  	--paging-type: full;
+  	   --max-name-width: 15;
 	}  
 }
-@media only screen and (max-width: 991px) {	
- 	:root {
-  	--paging-type: full;
-	}   
-}
+ 
