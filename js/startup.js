@@ -6,9 +6,8 @@ let frboats=undefined;
 function startup() {	 
 	$('#currentYear').text(currentYear);
 	$('#valid').text(currentYear);
-    showBoatsCounts();
 	createFrtable();
-	
+  
 	$('#frboats tbody').on('click', 'tr td', function () { 
 		if ($(this) [0]._DT_CellIndex == undefined) {
 			return;
@@ -18,7 +17,22 @@ function startup() {
 			showSingleboat($(this) [0]._DT_CellIndex.row);
 		} 
 	});
-	 
+    $("#selectButton").click(function() {
+     $('#selectCtypeDiv').show();
+     $('#selectCtypeDiv').css({top:$('#frTableDiv').position().top+'px'});
+    });
+    $("#selectCtypeDiv").change(function () {  
+        let checkboxes = document.querySelectorAll('input[name="checkbox"]:checked');
+        let values = [];
+        checkboxes.forEach((checkbox) => {
+            values.push(checkbox.value);
+        });
+        updateTable(values.join('|'));
+    }); 
+}
+
+function goShow() {
+    $('#selectCtypeDiv').hide();
 }
  
 const mobileColumns = [
@@ -85,87 +99,26 @@ function createFrtable() {
 				className: 'dt-body-nowrap'
 	        } 
 		],
-        dom: '<lf><"ctypeSearch">tip'
+        dom: '<lf<"ctypeSearch">>tip'
 	});
     document.getElementsByClassName('ctypeSearch')[0].appendChild(createSelect ());
 	console.log('frboats');
-    $('#NS').prop('checked', true);
-    $('#DH').prop('checked', true);
-    $('#CLUB').prop('checked', true);
-    $('#TABLE').prop('checked', true);
-    $('#INTL').prop('checked', true);
+ 
 }
 
 
-function createSelect () {
- 								 
+function createSelect () {				 
 	let div =  document.createElement('div');
 	div.setAttribute('id','selectDiv');
 	let checkBoxDiv =  document.createElement('div');
 	checkBoxDiv.setAttribute('id','checkBoxDiv');
-    checkBoxDiv.appendChild(document.createTextNode('Valitse\xa0\xa0\xa0\xa0'));
-	checkBoxDiv.setAttribute('class','checkBoxes');
-	createCheckboxes (checkBoxDiv);
- 	div.appendChild(checkBoxDiv);	
-     		
-	checkBoxDiv.addEventListener('change', function () {  
-		let checkboxes = document.querySelectorAll('input[name="checkbox"]:checked');
-		let values = [];
-		checkboxes.forEach((checkbox) => {
-	       	values.push(checkbox.value);
-		});
-		updateTable(values.join('|'));
-	});
-    
+    var selectButton = document.createElement("button");
+    selectButton.setAttribute('id','selectButton');
+    selectButton.appendChild(document.createTextNode("Valitse"));
+    div.appendChild(selectButton);      
     return div;
-	 
 }	 
-		 
-const intlSearch = 'INTL';
-const clubSearch = 'CLUB';
-const dhSearch = 'DHIN|DHCL';
-const nsSearch = 'NSIN|NSCL';
-const tableSearch = 'TABLE';
-const allSearch = tableSearch + '|' + intlSearch + '|' + clubSearch + '|' + dhSearch + '|' + nsSearch;
-
-function createCheckboxes (checkBoxDiv) {
-	const values = [tableSearch,intlSearch,clubSearch,dhSearch,nsSearch];
-	const texts = ['\xa0TABLE\xa0\xa0','\xa0INTL\xa0\xa0','\xa0CLUB\xa0\xa0','\xa0DH\xa0\xa0','\xa0NS'];
-	['TABLE','INTL','CLUB','DH','NS'].forEach ((box,i) => {
-		let checkbox = document.createElement('input');
-		checkbox.type = "checkbox";
-		checkbox.name = "checkbox";
-		checkbox.id = box;
-		checkbox.value = values[i];
-		checkBoxDiv.appendChild(checkbox);
-		label = document.createElement('label')
-		label.htmlFor = box;
-		label.appendChild(document.createTextNode(texts[i])); 
-		checkBoxDiv.appendChild(label);
-	});
-}
-
-let showintl=1;
-let showClub=1;
-let showDh=1;
-let showNs=1;
-let showTable=1;
-
-function updateTable(values) {
-	if(values === '') {
-        values = '_DONT_SHOW_NOTHING_Ñ_'
-    }
-	showintl=showClub=showDh=showNs=showTable=0;
-	if(values.includes(tableSearch)) showTable = 1;
-	if(values.includes(intlSearch)) showintl = 1;
-    if(values.includes(clubSearch)) showClub = 1;
-	if(values.includes(dhSearch)) showDh = 1;
-	if(values.includes(nsSearch)) showNs = 1; 		 
-	showBoatsCounts();
-	frboats.column(0).search(values, {exact: true}).draw();
-	frboats.column(2).order('asc').draw();		
-} 
- 
+    
 function reloadTable() {  
 	let interval = setInterval(function() {
 		if( frboats === undefined){
@@ -177,34 +130,83 @@ function reloadTable() {
 			frboats.rows.add(boatlist);
 			frboats.draw();
 			$('#waitPlease').hide();
-			console.log('reload');
+			console.log('reloaded');
+            setSelectCounts();
 		}
 	}, 10);
 }
 
+function setSelectCounts() {
+    $('#orcSelect').text(orcBoats);
+    $('#intlSelect').text(intlBoats);
+    $('#clubSelect').text(clubBoats);
+    $('#dhSelect').text(dhBoats);
+    $('#dhinSelect').text(dhinBoats);
+    $('#dhclSelect').text(dhclBoats);
+    $('#nsSelect').text(nsBoats);
+    $('#nsinSelect').text(nsinBoats);
+    $('#nsclSelect').text(nsclBoats);
+    $('#tableSelect').text(tableBoats);
+    $('#INTL').prop('checked', true);
+    $('#CLUB').prop('checked', true);
+    $('#DHIN').prop('checked', true);
+    $('#DHCL').prop('checked', true);
+    $('#NSIN').prop('checked', true);
+    $('#NSCL').prop('checked', true);
+    $('#TABLE').prop('checked', true); 
+}
+
+let showintl=1;
+let showClub=1;
+let showIndh=1;
+let showCldh=1;
+let showInns=1;
+let showClns=1;
+let showTable=1;
+
+function updateTable(values) {
+    if(values === '') {
+        values = '_DONT_SHOW_NOTHING_Ñ_'
+    }
+    showintl=showClub=showIndh=showCldh=showInns=showClns=showTable=0;
+    if(values.includes('TABLE')) showTable = 1;
+    if(values.includes('INTL')) showintl = 1;
+    if(values.includes('CLUB')) showClub = 1;
+    if(values.includes('DHIN')) showIndh = 1;
+    if(values.includes('DHCL')) showCldh = 1;
+    if(values.includes('NSIN')) showInns = 1;
+    if(values.includes('NSCL')) showClns = 1;  
+    showBoatsCounts();
+    frboats.column(0).search(values, {exact: true}).draw();
+    frboats.column(2).order('asc').draw();      
+} 
+
 function showBoatsCounts() {
-	 
+    
     let slash = '/';
-	if (showDh === 0 && showTable === 0 && showNs === 0) slash = '';
-	if(showintl === 1 && showClub === 1) $('#orcBoats').text(orcBoats+'\xa0ORC\xa0todistusta\xa0'+slash+'\xa0');
-    if(showintl === 1 && showClub === 0 ) $('#orcBoats').text(intlBoats+'\xa0INTL\xa0todistusta\xa0'+slash+'\xa0');
-    if(showintl === 0 && showClub === 1 ) $('#orcBoats').text(clubBoats+'\xa0CLUB\xa0todistusta\xa0'+slash+'\xa0');
-    if(showintl === 0 && showClub === 0) $('#orcBoats').text('');
+	if (showIndh === 0 && showCldh === 0 && showTable === 0 && showInns && showClns === 0) slash = '';
+	if (showintl === 1 && showClub === 1) $('#orcBoats').text(orcBoats+'\xa0ORC\xa0todistusta\xa0'+slash+'\xa0');
+    if (showintl === 1 && showClub === 0) $('#orcBoats').text(intlBoats+'\xa0INTL\xa0todistusta\xa0'+slash+'\xa0');
+    if (showintl === 0 && showClub === 1) $('#orcBoats').text(clubBoats+'\xa0CLUB\xa0todistusta\xa0'+slash+'\xa0');
+    if (showintl === 0 && showClub === 0) $('#orcBoats').text('');
 	
 	slash = '/';
-	if (showNs === 0 && showTable === 0) slash = '';
-	if(showDh === 1)	$('#dhBoats').text(dhBoats+'\xa0DH\xa0todistusta\xa0'+slash+' ');
-	else $('#dhBoats').text(''); 
+	if (showInns === 0 && showClns === 0 && showTable === 0) slash = '';
+	if (showIndh === 1 && showCldh === 1) $('#dhBoats').text(dhBoats+'\xa0DH\xa0todistusta\xa0'+slash+' ');
+    if (showIndh === 1 && showCldh === 0) $('#dhBoats').text(dhinBoats+'\xa0DHIN\xa0todistusta\xa0'+slash+' ');
+    if (showIndh === 0 && showCldh === 1) $('#dhBoats').text(dhclBoats+'\xa0DHCL\xa0todistusta\xa0'+slash+' ');
+	if (showIndh === 0 && showCldh === 0) $('#dhBoats').text(''); 
 	
 	slash = '/';
 	if (showTable === 0) slash = '';
-	if(showNs === 1)	$('#nsBoats').text(nsBoats+'\xa0NS\xa0todistusta\xa0'+slash+'\xa0');
-	else $('#nsBoats').text('');
+	if(showInns === 1 && showClns ===1)	$('#nsBoats').text(nsBoats+'\xa0NS\xa0todistusta\xa0'+slash+'\xa0');
+    if(showInns === 1 && showClns ===0) $('#nsBoats').text(nsinBoats+'\xa0NSIN\xa0todistusta\xa0'+slash+'\xa0');
+    if(showInns === 0 && showClns ===1) $('#nsBoats').text(nsclBoats+'\xa0NSCL\xa0todistusta\xa0'+slash+'\xa0');
+	if(showInns === 0 && showClns ===0) $('#nsBoats').text('');
 	
 	if(showTable=== 1) $('#tableBoats').text(tableBoats+'\xa0Taululukkovenettä');
 	else $('#tableBoats').text(''); 
   
 }
-
 
 

@@ -6,17 +6,16 @@
    
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <script src="js/fetch.js" async></script>
-   
-	<title>Finrating veneet</title>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
+  
+  <title>Finrating veneet</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" sizes="32x32" href="https://i0.wp.com/avomeripurjehtijat.org/wp-content/uploads/2021/03/amp-logo-square.png?fit=32%2C32&#038;ssl=11">
   
- 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"></script>
   <script src="https://cdn.datatables.net/rowreorder/1.2.5/css/rowReorder.dataTables.min.css"></script>
@@ -30,14 +29,15 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script> 
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-	
   
+	
  	<script src="js/startup.js" defer></script>
  	<script src="js/singleboat.js" defer></script>
  	
  	<link href="css/orig.css" rel="stylesheet">
  	<link href="css/fr.css" rel="stylesheet">
+ 
+ 
  
 </head>
 
@@ -51,6 +51,8 @@ console.log('ready');
 		}); 
 		startup();
 	}); 
+
+ 
 </script>
   
     
@@ -60,17 +62,16 @@ console.log('ready');
  
  		<div id="containerTable">
 			<div class="boxform">
-				<h2>
-					<i>Finrating veneet&nbsp;<span id="currentYear"></span></i>
-					<h2 style="display:block" id="waitPlease">Odota hetki!</h2>
-				</h2>
+				<h2><i>Finrating veneet&nbsp;<span id="currentYear"></span></i></h2>
+			    <h2 style="display:block" id="waitPlease">Odota hetki!</h2>
+				
 		 		<h4>
 		 			<span id="orcBoats"></span>
 		 			<span id="dhBoats"></span>
 		 			<span id="nsBoats"></span>
 		 			<span id="tableBoats"></span>
 		 		</h4>
-		 		<div class="box">
+		 		<div class="box" id="frTableDiv">
 	 	 		  <table class="table table-hover table-condensed table-striped table-sm display nowrap" style="width:100%" id="frboats"></table>
 	 	 		</div>
 			</div>
@@ -78,7 +79,41 @@ console.log('ready');
 		</div>
 
 
-
+        <div id="selectCtypeDiv" class="selectCtypeDiv" style="display:none;" >
+        
+            <label>ORC todistukset <span id="orcSelect"></span> kpl</label><br>
+            <span class="selecCtypeSpan"></span>
+            <input type="checkbox" name="checkbox" value="INTL" id="INTL">
+            <label for="INTL">INTL todistukset <span id="intlSelect"></span> kpl</label><br> 
+            <span class="selecCtypeSpan"></span>
+            <input type="checkbox" name="checkbox" value="CLUB" id="CLUB">
+            <label for="CLUB">CLUB todistukset <span id="clubSelect"></span> kpl</label>
+            <br><br> 
+            
+            <label>DH todistukset <span id="dhSelect"></span> kpl</label><br>
+            <span class="selecCtypeSpan"></span>
+            <input type="checkbox" name="checkbox" value="DHIN" id="DHIN">
+            <label for="DHIN">DHIN todistukset <span id="dhinSelect"></span> kpl</label><br> 
+            <span class="selecCtypeSpan"></span>
+            <input type="checkbox" name="checkbox" value="DHCL" id="DHCL">
+            <label for="DHCL">DHCL todistukset <span id="dhclSelect"></span> kpl</label>
+            <br><br> 
+            
+            <label>NS todistukset <span id="nsSelect"></span> kpl</label><br>
+            <span class="selecCtypeSpan"></span>
+            <input type="checkbox" name="checkbox" value="NSIN" id="NSIN">
+            <label for="NSIN">NSIN todistukset <span id="nsinSelect"></span> kpl</label><br> 
+            <span class="selecCtypeSpan"></span>
+            <input type="checkbox" name="checkbox" value="NSCL" id="NSCL">
+            <label for="NSCL">NSCL todistukset <span id="nsclSelect"></span> kpl</label>
+            <br><br> 
+            
+            <input type="checkbox" name="checkbox" value="TABLE" id="TABLE">
+            <label for="TABLE">Taulukkoveneitä <span id="tableSelect"></span> kpl</label><br>
+        
+            <br><button onClick='goShow()' type="submit">&nbsp;Käytä&nbsp;</button>
+        
+        </div>
 
 
 		<div id="singleBoat" style="display: none">

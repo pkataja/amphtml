@@ -24,24 +24,41 @@ button {
 }
  
 .dataTables_length {
-	max-width: 7.5rem;
+	max-width: 9rem;
 	display: inline;
 	float: left;
-	padding-right: 1rem;
+	padding-right: 1.5rem;
+	padding-left: 1.5rem;
+}
+.dataTables_filter {
+	max-width: 26rem;
+    display: inline-block;
+    padding-right: 1.5rem;
 }
 
 .ctypeSearch {
-    padding-top: 1rem;
+    display: inline-block;
 }
  
-.checkBoxes {
-	border: 0.125rem solid #00bce9; 
-	min-width: 5rem; 
-	border-radius: 7px;
-  line-height: 0.5rem;
-  padding-top: 0.5rem;
-  padding-left: 0.25rem;
-} 
+.selectCtypeDiv {
+    top:10rem;
+    left:10rem;
+    z-index:99;
+    position:fixed;
+    opacity:1;
+    background:white;
+    border: 0.125rem solid #00bce9; 
+    border-radius: 7px;
+    border-width: 0.4rem;
+    padding-top: 1rem;  
+    padding-bottom: 1rem;
+    padding-left: 2rem;
+    padding-right: 4rem;
+    
+}  
+.selecCtypeSpan {
+	padding-right:1rem
+}
  
 #waitPlease {
 	font-size: 1.9rem;

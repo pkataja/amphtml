@@ -2,15 +2,21 @@
 
 const currentYear = new Date().getFullYear();
  
-const boatlist = new Array();
+const boatlist = [];
 let csvData;
 let csvHeader;
 let tablejsonData;
+
 let orcBoats=0;
+let intlBoats=0;
+let clubBoats=0;
 let dhBoats=0;
+let dhinBoats=0;
+let dhclBoats=0;
 let nsBoats=0;
+let nsinBoats=0;
+let nsclBoats=0;
 let tableBoats=0;
- 
  
 console.log('orc') ;
 Promise.all([
@@ -33,16 +39,25 @@ fetch ('https://ampranking.s3.eu-north-1.amazonaws.com/2025/FinnishClass.json').
 		}).then(tablejson => {
 			tablejsonData = Array.from(tablejson.rms.entries());
 				fetch('https://ampranking.s3.eu-north-1.amazonaws.com/2025/FIN_table25.csv').then(csv => {
-					getCVSData(csv);
-					console.log('table');
-					readyToReload();
+					getCVSData(csv).then(a => {
+                        console.log('table');
+                        readyToReload();
+                    });
 			});
 		}); 
 console.log('fetch');
 
-let fetchDone=0;
+let fetchDone = 0;
 function readyToReload() {
-	if(++fetchDone == 2) reloadTable();
+    if (++fetchDone == 2) {
+        let interval = setInterval(function() {
+            if (typeof reloadTable != 'function') { }
+            else {
+                clearInterval(interval);
+                reloadTable();
+            }
+        }, 10);
+    }
 }
 
   
@@ -53,10 +68,10 @@ async function getCVSData (cvs) {
 	csvData.data.forEach (function(line,i){	
 		if(i>0 && line[0] !='') {
 		 
-			let boatdata = new Map()
+			let boatdata = new Map();
 			
 			let s = line[0];
-			const bin = s.replace('.dxt','');;
+			const bin = s.replace('.dxt','');
 			const jsonMap = tablejsonData.find(([key, value]) => value ["BIN"] === bin)[1];
 			boatdata ["FIN_FinRating_TOT"] = jsonMap ["FIN_FinRating_TOT"];
 			boatdata ["FIN_FinRating_H_TOT"] = jsonMap ["FIN_FinRating_H_TOT"];
@@ -100,29 +115,35 @@ async function getCVSData (cvs) {
 
 function getJsonData (data) {
 	data ["rms"].forEach (item => {
-		let boatdata = new Map();
-		boatdata ["FIN_FinRating_TOT"] = item ["FIN_FinRating_TOT"];
-		boatdata ["FIN_FinRating_H_TOT"] = item ["FIN_FinRating_H_TOT"];
-		boatdata ["FIN_FinRating_L_TOT"] = item ["FIN_FinRating_L_TOT"];
-		boatdata ["CDL"] = item ["CDL"];
-		boatdata ["CrewWT"] = item ["CrewWT"];
-		let c_type =  item ["C_Type"];
-		boatdata ["C_TYPE"] = c_type;
-		boatdata ["TYPE"] = item ["Class"];
-		boatdata ["FILE_ID"] = item ["RefNo"];
-		boatdata ["SAILNUMB"] = item ["SailNo"];
-	 	boatdata ["NAME"] = item ["YachtName"];
-	  boatlist.push(boatdata); 
+	let boatdata = new Map();
+	boatdata ["FIN_FinRating_TOT"] = item ["FIN_FinRating_TOT"];
+	boatdata ["FIN_FinRating_H_TOT"] = item ["FIN_FinRating_H_TOT"];
+	boatdata ["FIN_FinRating_L_TOT"] = item ["FIN_FinRating_L_TOT"];
+	boatdata ["CDL"] = item ["CDL"];
+	boatdata ["CrewWT"] = item ["CrewWT"];
+	let c_type =  item ["C_Type"];
+	boatdata ["C_TYPE"] = c_type;
+	boatdata ["TYPE"] = item ["Class"];
+	boatdata ["FILE_ID"] = item ["RefNo"];
+	boatdata ["SAILNUMB"] = item ["SailNo"];
+	boatdata ["NAME"] = item ["YachtName"];
+	boatlist.push(boatdata); 
 		
-		if(c_type==='INTL' || c_type === 'CLUB') {
-				++orcBoats;
-		}
-		if(c_type==='DHIN' || c_type === 'DHCL') {
-				dhBoats = data ["rms"].length;
-		}
-		if(c_type==='HSIN' || c_type === 'NSCL') {
-			nsBoats = data ["rms"].length;
-		}
+	if(c_type==='INTL' || c_type === 'CLUB') {
+        ++orcBoats;
+        if(c_type==='INTL') ++intlBoats;
+        if(c_type==='CLUB') ++clubBoats;
+	}
+    if(c_type==='DHIN' || c_type === 'DHCL') {
+        ++dhBoats;
+        if(c_type==='DHIN') ++dhinBoats;
+        if(c_type==='DHCL') ++dhclBoats;
+    }
+    if(c_type==='NSIN' || c_type === 'NSCL') {
+        ++nsBoats;
+        if(c_type==='NSIN') ++nsinBoats;
+        if(c_type==='NSCL') ++nsclBoats;
+	}
 		 
 	});
  
