@@ -41,8 +41,8 @@ button {
 }
  
 .selectCtypeDiv {
-    top:10rem;
-    left:10rem;
+    left:5rem;
+    min-width:23rem;
     z-index:99;
     position:fixed;
     opacity:1;
@@ -50,11 +50,7 @@ button {
     border: 0.125rem solid #00bce9; 
     border-radius: 7px;
     border-width: 0.4rem;
-    padding-top: 1rem;  
-    padding-bottom: 1rem;
-    padding-left: 2rem;
-    padding-right: 4rem;
-    
+    padding: 2rem;
 }  
 .selecCtypeSpan {
 	padding-right:1rem
