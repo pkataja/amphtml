@@ -85,8 +85,8 @@ async function getCVSData (cvs) {
 			boatdata ["C_TYPE"] = "TABLE";
 			boatdata ["TYPE"] = line[2];
 			boatdata ["FILE_ID"] = line[0];
-			boatdata ["SAILNUMB"] = "";
-			boatdata ["NAME"] = "";
+			boatdata ["SAILNUMB"] = "\xa0";
+			boatdata ["NAME"] = "\xa0";
 			boatdata ["index"] = i;
 			boatlist.push(boatdata);  
 			
