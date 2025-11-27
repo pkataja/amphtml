@@ -7,7 +7,7 @@ let currentDefaultBoat = '';
 
 let currentIDHMS;
 let inputTableJS;
-let sailTimesArray = new Array();
+let sailTimesArray = [];
 
 let maxNameWidth;
 let showtime = false;
@@ -53,7 +53,7 @@ function doToggle() {
     showtime = !showtime;
     let text = "Näytä aika";
     if (!showtime) {
-        text = "Näytä erotus"
+        text = "Näytä erotus";
     }
     $('#toggle').html(text);
     updateInputs();
@@ -101,19 +101,19 @@ function updateSailTimeArray() {
 function createExcel() {
     let clone = document.getElementById("inputTable").cloneNode(true);
     let wb = XLSX.utils.table_to_book(clone, { sheet: "scratch" });
-    let ws = wb.Sheets['scratch'];
+    let ws = wb.Sheets.scratch;
     ws['!cols'] = [{ width:2},{width:7},{width:20},{width:10},{width:25},{ width:10},{width:11},{width:10},{width:11},{width:10},{width:11},{width:10},{width:11},{width:10},{width:11},{width:10},{width:11},{width:10}];
     let i = 1;
     for (const [key, sboat] of sortBoats(boats)) {
          ++i;
-         ws['D'+i]={t:'n',z:'0.0000',v:sboat.FIN_FinRating_TOT}
+         ws['D'+i]={t:'n',z:'0.0000',v:sboat.FIN_FinRating_TOT};
      }
     const date = new Date();
     wb.Props = {};
     wb.Props.Author = "Avomeripurjehtijat ry 2025";
     wb.Props.CreatedDate = date;
     if (typeof wb.Props.SheetNames != 'undefined') {
-        wb.Props.SheetNames[0] = "scratch";;
+        wb.Props.SheetNames[0] = "scratch";
     }
     const now = date.toISOString().replace(/[^0-9]/g, '').slice(0, -3);
     XLSX.writeFile(wb, 'scratch_' + now + '.xlsx', { type: 'file' });
@@ -181,7 +181,7 @@ function updateInputs() {
         row += '<td' + fontWeight + '>' + fixNumber(sboat.FIN_FinRating_TOT) + '</td>';
         row += '<td' + fontWeight + '>' + sboat.NAME.slice(0, maxNameWidth) + '</td>';
         let timeTd = 0;
-        for (time of sboat.times) {
+        for (const time of sboat.times) {
             if (showDiff) {
                 if (showtime) {
                     row += '<td>' + time[1] + time[2] + '</td>';
@@ -252,11 +252,11 @@ function calculate() {
     }
 
     sailTimesLength = sailtimes.length;
-    let frbase = boats.get(currentDefaultBoat).FIN_FinRating_TOT
+    let frbase = boats.get(currentDefaultBoat).FIN_FinRating_TOT;
     for (const [key, aboat] of (boats)) {
         let fr = aboat.FIN_FinRating_TOT;
         let boatAllTimes = [];
-        for (sailtime of sailtimes) {
+        for (const sailtime of sailtimes) {
             let time = Math.floor(sailtime);
             let sail = Math.floor((time + (frbase * time / fr) - time));
             let calc = sail * fr;
@@ -269,14 +269,14 @@ function calculate() {
             if (diff == 0) {
                 mark = "&nbsp;&nbsp; ";
             }
-            let boatTimes = []
+            let boatTimes = [];
             boatTimes.push(toHHMMSS(sail));
             boatTimes.push(mark);
             boatTimes.push(toHHMMSS(diff));
             boatTimes.push(toHHMMSS(calc));
             boatAllTimes.push(boatTimes);
         }
-        aboat['times'] = boatAllTimes;
+        aboat.times = boatAllTimes;
     }
 }
 
@@ -285,8 +285,8 @@ const toHHMMSS = (secs) => {
     const hours = Math.floor(sec_num / 3600);
     const minutes = Math.floor(sec_num / 60) % 60;
     const seconds = sec_num  % 60 ;
-    return [hours, minutes, seconds].map(v => v < 10 ? "0" + v : v).join(":")
-}
+    return [hours, minutes, seconds].map(v => v < 10 ? "0" + v : v).join(":");
+};
 
 
  

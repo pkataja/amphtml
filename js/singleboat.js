@@ -2,11 +2,11 @@
 
 function showSingleboat(row) {
 	const boat = boatlist [row]; 
-	if(boat ["C_TYPE"] ==='TABLE') {
-		tableShowSingleboat (boat ["index"]);
+	if(boat.C_TYPE ==='TABLE') {
+		tableShowSingleboat (boat.index);
 	}
 	else {
-		window.open('https://data.orc.org/public/WPub.dll/CC/'+boat ["FILE_ID"]);
+		window.open('https://data.orc.org/public/WPub.dll/CC/'+boat.FILE_ID);
 	}
 }
 

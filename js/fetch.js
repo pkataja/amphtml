@@ -78,7 +78,7 @@ function getCVSData (csvArray) {
 			
 			let s = line[0];
 			const bin = s.replace('.dxt','');
-			const jsonMap = tablejsonData.find(([key, value]) => value ["BIN"] === bin)[1];
+			const jsonMap = tablejsonData.find(([key, value]) => value.BIN === bin)[1];
 			boatdata.FIN_FinRating_TOT = jsonMap.FIN_FinRating_TOT;
 			boatdata.FIN_FinRating_H_TOT = jsonMap.FIN_FinRating_H_TOT;
 			boatdata.FIN_FinRating_L_TOT = jsonMap.FIN_FinRating_L_TOT;
@@ -120,7 +120,7 @@ function getCVSData (csvArray) {
 }
 
 function getJsonData (data) {
-	data ["rms"].forEach (item => {
+	data.rms.forEach (item => {
 	let boatdata = new Map();
 	boatdata.FIN_FinRating_TOT = item.FIN_FinRating_TOT;
 	boatdata.FIN_FinRating_H_TOT = item.FIN_FinRating_H_TOT;

@@ -1,6 +1,6 @@
 
 
-let lystableJS = undefined;
+let lystableJS;
 let existingIDs = [];
  
 function reloadTable() {

@@ -1,5 +1,5 @@
 
-let frboats=undefined;
+let frboats;
 
 
  
@@ -18,8 +18,8 @@ function startup() {
 		} 
 	});
     $("#selectButton").click(function() {
-     $('#selectCtypeDiv').show();
-     $('#selectCtypeDiv').css({top:$('#frTableDiv').position().top+'px'});
+      $('#selectCtypeDiv').show();
+      $('#selectCtypeDiv').css({top:$('#frTableDiv').position().top+'px'});
     });
     $("#selectCtypeDiv").change(function () {  
         let checkboxes = document.querySelectorAll('input[name="checkbox"]:checked');
@@ -166,7 +166,7 @@ let showTable=1;
 
 function updateTable(values) {
     if(values === '') {
-        values = '_DONT_SHOW_NOTHING_Ñ_'
+        values = '_DONT_SHOW_NOTHING_Ñ_';
     }
     showintl=showClub=showIndh=showCldh=showInns=showClns=showTable=0;
     if(values.includes('TABLE')) showTable = 1;
@@ -184,7 +184,7 @@ function updateTable(values) {
 function showBoatsCounts() {
     
     let slash = '/';
-	if (showIndh === 0 && showCldh === 0 && showTable === 0 && showInns && showClns === 0) slash = '';
+	if (showIndh === 0 && showCldh === 0 && showTable === 0 && showInns === 0 && showClns === 0) slash = '';
 	if (showintl === 1 && showClub === 1) $('#orcBoats').text(orcBoats+'\xa0ORC\xa0todistusta\xa0'+slash+'\xa0');
     if (showintl === 1 && showClub === 0) $('#orcBoats').text(intlBoats+'\xa0INTL\xa0todistusta\xa0'+slash+'\xa0');
     if (showintl === 0 && showClub === 1) $('#orcBoats').text(clubBoats+'\xa0CLUB\xa0todistusta\xa0'+slash+'\xa0');

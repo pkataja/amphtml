@@ -15,7 +15,7 @@ $(document).ready(function() {
 function startup() {
     $('#lystable tbody').on('click', 'tr', function() {
        boats.set(getUniqueID(), boatlist[$(this)[0]._DT_RowIndex]);
-       updateBoats() 
+       updateBoats(); 
     });
     $(document).on('change', 'input[type=radio][name=firstBoat]', function(event) {
         firstBoatChanged=1;
@@ -138,7 +138,7 @@ function updateBoats() {
         row += '<td>'+fixNumber(sboat.FIN_FinRating_TOT)+'</td>';
         row += '<td>'+sboat.NAME+'</td>'; 
         row += '<td>'+sboat.SAILNUMB+'</td>';
-        sboat['startTime'] = calculcateStartTime(frSmallest,sboat.FIN_FinRating_TOT,firstBoaFound);
+        sboat.startTime = calculcateStartTime(frSmallest,sboat.FIN_FinRating_TOT,firstBoaFound);
   
         let startTime = '';
         if (sboat.startTime != undefined) {
@@ -196,7 +196,7 @@ function removeBoat(boatid) {
 function createExcel() {
     let clone = document.getElementById("inputTable").cloneNode(true);
     let wb = XLSX.utils.table_to_book(clone, { sheet: "Veneet" });
-    let ws = wb.Sheets['Veneet'];
+    let ws = wb.Sheets.Veneet;
     ws['!cols'] = [{ width:4},{width:9},{width:20},{width:10},{width:30},{width:10},{width:10},{ width:10},{width:10},{ width: 10 }];
     const date = new Date();
     
