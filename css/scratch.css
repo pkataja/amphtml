@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-@charset "UTF-8";
+ 
 
 
 :root {
@@ -24,8 +24,8 @@ body {
     padding-top: 0rem; 
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button {
- 		padding: 0rem !important;
- 		margin-left: 0.5rem !important;
+    padding: 0rem !important;
+ 	margin-left: 0.5rem !important;
 }
 
 .changeHMS {
@@ -93,8 +93,8 @@ body {
 } 
 .inputTable th,
 .inputTable td {
-  padding-right:0.2rem !important;
-  padding-left: 0.2rem !important; 
+    padding-right:0.2rem !important;
+    padding-left: 0.2rem !important; 
  	border: 0.1px solid;
  	white-space: nowrap;
 } 

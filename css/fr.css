@@ -14,7 +14,7 @@
 	position: absolute; 
 	z-index: 10;
 	padding-left: 0.2rem;
-  padding-top: 0.2rem;
+    padding-top: 0.2rem;
 }
  
 button {
@@ -55,6 +55,9 @@ button {
 .selecCtypeSpan {
 	padding-right:1rem
 }
+.selectCtypeDiv label {
+	 margin-bottom: 0;
+}
  
 #waitPlease {
 	font-size: 1.9rem;
@@ -67,7 +70,7 @@ button {
 @media only screen and (max-width: 500px) {	
 	
 	:root {
-  	--device: mobile;
+  	 --device: mobile;
 	}  
 	
 	
