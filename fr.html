@@ -5,7 +5,7 @@
 <head>
    
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-  <script src="js/fetch.js" async></script>
+  <script src="js/devFetch.js" async></script>
   
   <title>Finrating veneet</title>
   <meta charset="UTF-8">
@@ -36,20 +36,18 @@
  	
  	<link href="css/orig.css" rel="stylesheet">
  	<link href="css/fr.css" rel="stylesheet">
- 
- <script>
-  $(document).ready(function() { 
-      console.log('ready');
-      history.pushState({}, '', location.href);       
-        $(window).on('popstate', function() {
-             backToMain ();
-        }); 
-        startup();
-    }); 
 
- 
+<script>
+	$(document).ready(function() {
+		console.log('ready');
+		history.pushState({}, '', location.href);  
+		$(window).on('popstate', function() {
+			backToMain();
+		}); 
+		startup();
+	});
 </script>
- 
+
 </head>
 
 

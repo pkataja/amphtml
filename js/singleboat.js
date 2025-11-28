@@ -1,3 +1,5 @@
+
+
  
 
 function showSingleboat(row) {
@@ -7,6 +9,7 @@ function showSingleboat(row) {
 	}
 	else {
 		window.open('https://data.orc.org/public/WPub.dll/CC/'+boat.FILE_ID);
+        //window.location.replace('https://data.orc.org/public/WPub.dll/CC/'+boat.FILE_ID);
 	}
 }
 
@@ -25,7 +28,8 @@ function tableShowSingleboat(index) {
 }
 
 function backToMain () {
-	$('#singleBoat').hide();
-	$('#ORCBoatDiv').hide();
+    history.go(1); 
+    $('#singleBoat').hide();
+    $('#ORCBoatDiv').hide();
 	$('#containerTable').show();
 }
